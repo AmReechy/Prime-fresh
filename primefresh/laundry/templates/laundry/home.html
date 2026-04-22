@@ -1,0 +1,582 @@
+{% extends 'laundry/base.html' %}
+
+{% block title %}PrimeFresh – Laundry & General Cleaning Services | Free Pickup & Delivery{% endblock %}
+
+{% block navbar_class %}bg-transparent{% endblock %}
+
+{% block extra_head %}
+<style>
+  /* Hero */
+  .hero-section {
+    min-height: 100vh;
+    background: linear-gradient(150deg, #0f2554 0%, #1463d9 40%, #2389f0 70%, #5ab6fb 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bubbles span {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    animation: float 6s ease-in-out infinite;
+  }
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+
+  /* Stat counter */
+  .stat-card { backdrop-filter: blur(10px); }
+
+  /* Service cards */
+  .service-icon-wrap {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .service-card:hover .service-icon-wrap {
+    transform: rotate(-6deg) scale(1.1);
+  }
+
+  /* Testimonial */
+  .testimonial-track {
+    display: flex;
+    gap: 1.5rem;
+    animation: scrollLeft 30s linear infinite;
+    width: max-content;
+  }
+  .testimonial-track:hover { animation-play-state: paused; }
+  @keyframes scrollLeft {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .testimonial-fade-left {
+    background: linear-gradient(to right, #eff8ff 0%, transparent 100%);
+  }
+  .testimonial-fade-right {
+    background: linear-gradient(to left, #eff8ff 0%, transparent 100%);
+  }
+
+  /* Process step connector */
+  .step-line {
+    position: absolute;
+    top: 28px;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, #3399f7, #bde3ff);
+    z-index: 0;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<section class="hero-section flex items-center pt-20">
+  <!-- Decorative bubbles -->
+  <div class="hero-bubbles" aria-hidden="true">
+    <span style="width:300px;height:300px;top:-80px;right:-80px;animation-delay:0s;"></span>
+    <span style="width:180px;height:180px;bottom:20%;left:-60px;animation-delay:2s;"></span>
+    <span style="width:120px;height:120px;top:40%;right:10%;animation-delay:1s;"></span>
+    <span style="width:80px;height:80px;bottom:10%;right:25%;animation-delay:3s;"></span>
+  </div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 w-full">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+
+      <!-- Left: Text -->
+      <div class="text-white">
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm border border-white/20 rounded-full px-4 py-2 mb-8"
+             style="animation: fadeUp 0.6s ease-out forwards;">
+          <span class="w-2 h-2 bg-gold-400 rounded-full animate-pulse"></span>
+          <span class="text-sm font-medium text-blue-100">Professional Laundry & Cleaning – Abuja FCT</span>
+        </div>
+
+        <h1 class="font-display font-extrabold text-5xl sm:text-6xl lg:text-7xl leading-[1.05] mb-6"
+            style="animation: fadeUp 0.7s 0.1s ease-out both;">
+          Your Clothes<br/>
+          Deserve a<br/>
+          <span class="text-gold-400">Prime Touch.</span>
+        </h1>
+
+        <p class="text-blue-100 text-lg sm:text-xl leading-relaxed mb-8 max-w-lg"
+           style="animation: fadeUp 0.7s 0.2s ease-out both;">
+          Fresh care for your garments — from laundry & ironing to deep home cleaning. We pick up, care, and deliver right to your door.
+        </p>
+
+        <!-- CTA Buttons -->
+        <div class="flex flex-wrap gap-4 mb-10" style="animation: fadeUp 0.7s 0.3s ease-out both;">
+          <a href="{% url 'booking' %}"
+             class="inline-flex items-center gap-2 bg-gold-500 hover:bg-gold-400 text-white px-8 py-4 rounded-full font-display font-bold text-lg shadow-xl hover:shadow-gold-400/40 transition-all duration-200 hover:-translate-y-1">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            Book Free Pickup
+          </a>
+          <a href="{% url 'services' %}"
+             class="inline-flex items-center gap-2 bg-white/15 hover:bg-white/25 backdrop-blur border border-white/30 text-white px-8 py-4 rounded-full font-display font-semibold text-lg transition-all duration-200 hover:-translate-y-1">
+            View Services →
+          </a>
+        </div>
+
+        <!-- Trust signals -->
+        <div class="flex flex-wrap gap-6" style="animation: fadeUp 0.7s 0.4s ease-out both;">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            <span class="text-blue-100 text-sm">Free Pickup & Delivery</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            <span class="text-blue-100 text-sm">Expert Fabric Care</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            <span class="text-blue-100 text-sm">Affordable Rates</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Visual card -->
+      <div class="hidden lg:block" style="animation: fadeIn 1s 0.3s ease-out both;">
+        <div class="relative">
+          <!-- Main visual card -->
+          <div class="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-6 shadow-2xl">
+            <!-- Placeholder for hero image -->
+            <div class="w-full h-72 bg-white/10 rounded-2xl flex items-center justify-center border border-white/20 mb-4 overflow-hidden">
+              <div class="text-center text-white/60">
+                <svg class="w-20 h-20 mx-auto mb-3 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                </svg>
+                <p class="text-sm">[ Replace with hero image ]</p>
+                <p class="text-xs opacity-70 mt-1">Recommended: 600×400px laundry photo</p>
+              </div>
+            </div>
+
+            <!-- Mini stats inside card -->
+            <div class="grid grid-cols-3 gap-3">
+              {% if stats %}
+                {% for stat in stats|slice:":3" %}
+                <div class="bg-white/10 rounded-xl p-3 text-center">
+                  <p class="font-display font-bold text-xl text-white">{{ stat.value }}</p>
+                  <p class="text-blue-200 text-xs mt-0.5">{{ stat.label }}</p>
+                </div>
+                {% endfor %}
+              {% else %}
+                <div class="bg-white/10 rounded-xl p-3 text-center">
+                  <p class="font-display font-bold text-xl text-white">98%</p>
+                  <p class="text-blue-200 text-xs mt-0.5">Satisfaction</p>
+                </div>
+                <div class="bg-white/10 rounded-xl p-3 text-center">
+                  <p class="font-display font-bold text-xl text-white">5,000+</p>
+                  <p class="text-blue-200 text-xs mt-0.5">Items Cleaned</p>
+                </div>
+                <div class="bg-white/10 rounded-xl p-3 text-center">
+                  <p class="font-display font-bold text-xl text-white">3 Yrs</p>
+                  <p class="text-blue-200 text-xs mt-0.5">Experience</p>
+                </div>
+              {% endif %}
+            </div>
+          </div>
+
+          <!-- Free pickup badge -->
+          <div class="absolute -top-4 -right-4 bg-red-500 text-white font-display font-bold text-center rounded-2xl px-5 py-3 shadow-lg shadow-red-500/40 animate-pulse2">
+            <p class="text-xs">FREE</p>
+            <p class="text-lg leading-tight">Pickup &<br/>Delivery</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Wave bottom -->
+  <div class="absolute bottom-0 left-0 right-0">
+    <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg" class="w-full">
+      <path fill="#f8faff" d="M0,60 C480,100 960,20 1440,60 L1440,80 L0,80 Z"/>
+    </svg>
+  </div>
+</section>
+
+
+<!-- ══════════════════ STATS BANNER ══════════════════ -->
+<section class="py-16 bg-f8faff">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      {% if stats %}
+        {% for stat in stats %}
+        <div class="reveal card-hover bg-white rounded-2xl p-6 text-center shadow-sm border border-blue-50" data-delay="{{ forloop.counter0|add:'0' }}00">
+          <div class="w-12 h-12 bg-brand-gradient rounded-xl flex items-center justify-center mx-auto mb-4">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <p class="font-display font-extrabold text-3xl text-brand-700 mb-1 counter" data-target="{{ stat.value }}">{{ stat.value }}</p>
+          <p class="text-slate-500 text-sm">{{ stat.label }}</p>
+        </div>
+        {% endfor %}
+      {% else %}
+        {% for stat in default_stats %}
+        <div class="reveal card-hover bg-white rounded-2xl p-6 text-center shadow-sm border border-blue-50">
+          <div class="w-12 h-12 bg-brand-gradient rounded-xl flex items-center justify-center mx-auto mb-4">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <p class="font-display font-extrabold text-3xl text-brand-700 mb-1">{{ stat.value }}</p>
+          <p class="text-slate-500 text-sm">{{ stat.label }}</p>
+        </div>
+        {% endfor %}
+      {% endif %}
+
+      <!-- Fallback if no stats at all -->
+      {% if not stats %}
+      <div class="reveal card-hover bg-white rounded-2xl p-6 text-center shadow-sm border border-blue-50">
+        <div class="w-12 h-12 bg-gold-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+        </div>
+        <p class="font-display font-extrabold text-3xl text-brand-700 mb-1">500+</p>
+        <p class="text-slate-500 text-sm">Happy Clients</p>
+      </div>
+      <div class="reveal card-hover bg-white rounded-2xl p-6 text-center shadow-sm border border-blue-50">
+        <div class="w-12 h-12 bg-brand-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <p class="font-display font-extrabold text-3xl text-brand-700 mb-1">5,000+</p>
+        <p class="text-slate-500 text-sm">Items Cleaned</p>
+      </div>
+      <div class="reveal card-hover bg-white rounded-2xl p-6 text-center shadow-sm border border-blue-50">
+        <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+          <svg class="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+        </div>
+        <p class="font-display font-extrabold text-3xl text-brand-700 mb-1">98%</p>
+        <p class="text-slate-500 text-sm">Satisfaction Rate</p>
+      </div>
+      <div class="reveal card-hover bg-white rounded-2xl p-6 text-center shadow-sm border border-blue-50">
+        <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center mx-auto mb-4">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        </div>
+        <p class="font-display font-extrabold text-3xl text-brand-700 mb-1">24hr</p>
+        <p class="text-slate-500 text-sm">Quick Turnaround</p>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════ HOW IT WORKS ══════════════════ -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-16 reveal">
+      <span class="text-brand-500 font-semibold text-sm uppercase tracking-widest">Simple Process</span>
+      <h2 class="font-display font-bold text-4xl sm:text-5xl text-slate-900 mt-2 mb-4">How It Works</h2>
+      <p class="text-slate-500 text-lg max-w-xl mx-auto">From booking to freshly cleaned clothes — it's easier than you think.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 relative">
+      {% for step in how_it_works %}
+      <div class="reveal text-center" data-delay="{{ forloop.counter0 }}50">
+        <div class="relative inline-flex items-center justify-center w-16 h-16 bg-brand-gradient rounded-2xl shadow-lg shadow-brand-400/30 mb-5 mx-auto">
+          <span class="font-display font-bold text-2xl text-white">{{ forloop.counter }}</span>
+          <div class="absolute -top-2 -right-2 w-5 h-5 bg-gold-400 rounded-full flex items-center justify-center">
+            <svg class="w-2.5 h-2.5 text-white" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+          </div>
+        </div>
+        <h3 class="font-display font-bold text-lg text-slate-800 mb-2">{{ step.0 }}</h3>
+        <p class="text-slate-500 text-sm leading-relaxed">{{ step.1 }}</p>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="text-center mt-12 reveal">
+      <a href="{% url 'booking' %}" class="inline-flex items-center gap-2 bg-brand-gradient text-white px-8 py-4 rounded-full font-display font-semibold text-lg shadow-lg hover:shadow-brand-400/40 hover:-translate-y-1 transition-all duration-200">
+        Get Started – Book Now
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════ FEATURED SERVICES ══════════════════ -->
+<section class="py-20 bg-brand-50/50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-14 gap-4">
+      <div class="reveal">
+        <span class="text-brand-500 font-semibold text-sm uppercase tracking-widest">What We Offer</span>
+        <h2 class="font-display font-bold text-4xl sm:text-5xl text-slate-900 mt-2">Our Services</h2>
+      </div>
+      <a href="{% url 'services' %}" class="reveal text-brand-600 font-semibold hover:text-brand-800 flex items-center gap-1 transition-colors">
+        See All Services →
+      </a>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {% for service in featured_services %}
+      <div class="service-card reveal card-hover bg-white rounded-2xl p-7 shadow-sm border border-blue-50 group" data-delay="{{ forloop.counter0 }}00">
+        <div class="service-icon-wrap w-14 h-14 bg-brand-50 rounded-2xl flex items-center justify-center mb-5">
+          <svg class="w-7 h-7 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-bold text-xl text-slate-900 mb-3">{{ service.name }}</h3>
+        <p class="text-slate-500 text-sm leading-relaxed mb-4">{{ service.description }}</p>
+        {% if service.price_from %}
+        <p class="text-brand-600 font-semibold text-sm">From ₦{{ service.price_from }} {{ service.price_unit }}</p>
+        {% endif %}
+      </div>
+      {% empty %}
+      <!-- Placeholder service cards -->
+      {% for placeholder in "12345678"|make_list %}
+      <div class="service-card reveal card-hover bg-white rounded-2xl p-7 shadow-sm border border-blue-50 group">
+        <div class="service-icon-wrap w-14 h-14 bg-brand-50 rounded-2xl flex items-center justify-center mb-5">
+          <svg class="w-7 h-7 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-bold text-xl text-slate-900 mb-3">Service Name</h3>
+        <p class="text-slate-500 text-sm leading-relaxed">Add your services in the Django admin panel and mark them as "featured" to display them here.</p>
+      </div>
+      <!--% if forloop.counter == 3 %% break %% endif %-->
+      {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════ WHY CHOOSE US ══════════════════ -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <!-- Left: Image placeholder -->
+      <div class="reveal">
+        <div class="relative">
+          <div class="bg-brand-50 rounded-3xl overflow-hidden h-96 flex items-center justify-center border border-brand-100">
+            <div class="text-center text-slate-400">
+              <svg class="w-20 h-20 mx-auto mb-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+              <p class="text-sm">[ Replace with team or facility image ]</p>
+              <p class="text-xs opacity-70">Recommended: 700×500px</p>
+            </div>
+          </div>
+          <!-- Floating card -->
+          <div class="absolute -bottom-6 -right-6 bg-white rounded-2xl shadow-xl p-5 border border-blue-50 max-w-xs">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                </svg>
+              </div>
+              <div>
+                <p class="font-display font-bold text-slate-900">Trusted by 500+</p>
+                <p class="text-slate-500 text-sm">satisfied customers in Abuja</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Reasons -->
+      <div class="reveal">
+        <span class="text-brand-500 font-semibold text-sm uppercase tracking-widest">Why PrimeFresh?</span>
+        <h2 class="font-display font-bold text-4xl sm:text-5xl text-slate-900 mt-2 mb-8">Exceptional Care,<br/><span class="gradient-text">Every Single Time</span></h2>
+
+        <div class="space-y-6">
+          {% for reason in why_us %}
+          <div class="flex items-start gap-4">
+            <div class="w-10 h-10 flex-shrink-0 bg-brand-gradient rounded-xl flex items-center justify-center shadow-md">
+              <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ reason.icon }}"/>
+              </svg>
+            </div>
+            <div>
+              <h4 class="font-display font-semibold text-lg text-slate-900 mb-1">{{ reason.title }}</h4>
+              <p class="text-slate-500 text-sm leading-relaxed">{{ reason.desc }}</p>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <a href="{% url 'booking' %}" class="inline-flex items-center gap-2 mt-8 bg-brand-gradient text-white px-7 py-3.5 rounded-full font-display font-semibold shadow-lg hover:shadow-brand-400/40 hover:-translate-y-1 transition-all duration-200">
+          Book a Pickup Today
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════ TESTIMONIALS ══════════════════ -->
+<section class="py-20 bg-brand-50/60 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
+    <div class="text-center reveal">
+      <span class="text-brand-500 font-semibold text-sm uppercase tracking-widest">Client Love</span>
+      <h2 class="font-display font-bold text-4xl sm:text-5xl text-slate-900 mt-2 mb-4">What Our Clients Say</h2>
+      <div class="flex justify-center gap-1 mb-4">
+        {% for i in "12345"|make_list %}
+        <svg class="w-6 h-6 text-gold-400" fill="currentColor" viewBox="0 0 20 20">
+          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+        </svg>
+        {% endfor %}
+      </div>
+      <p class="text-slate-500">Trusted by hundreds of happy clients across Abuja</p>
+    </div>
+  </div>
+
+  <!-- Auto-scrolling testimonials -->
+  <div class="relative overflow-hidden">
+    <div class="absolute left-0 top-0 bottom-0 w-20 z-10 testimonial-fade-left pointer-events-none"></div>
+    <div class="absolute right-0 top-0 bottom-0 w-20 z-10 testimonial-fade-right pointer-events-none"></div>
+
+    <div class="testimonial-track">
+      {% for t in testimonials %}
+      <div class="flex-shrink-0 w-80 bg-white rounded-2xl p-6 shadow-sm border border-blue-50">
+        <div class="flex items-center gap-3 mb-4">
+          {% if t.client_photo %}
+          <img src="{{ t.client_photo.url }}" alt="{{ t.client_name }}" class="w-12 h-12 rounded-full object-cover">
+          {% else %}
+          <div class="w-12 h-12 rounded-full bg-brand-gradient flex items-center justify-center text-white font-bold font-display text-lg">
+            {{ t.client_name|first }}
+          </div>
+          {% endif %}
+          <div>
+            <p class="font-display font-semibold text-slate-900">{{ t.client_name }}</p>
+            {% if t.location %}<p class="text-slate-400 text-xs">{{ t.location }}</p>{% endif %}
+          </div>
+        </div>
+        <div class="flex gap-0.5 mb-3">
+          {% for i in "12345"|make_list %}
+          <svg class="w-4 h-4 {% if forloop.counter <= t.rating %}text-gold-400{% else %}text-slate-200{% endif %}" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+          </svg>
+          {% endfor %}
+        </div>
+        <p class="text-slate-600 text-sm leading-relaxed">"{{ t.review }}"</p>
+      </div>
+      {% empty %}
+      <!-- Placeholder testimonials -->
+      {% for name, loc, review in placeholder_testimonials %}
+      <div class="flex-shrink-0 w-80 bg-white rounded-2xl p-6 shadow-sm border border-blue-50">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 rounded-full bg-brand-gradient flex items-center justify-center text-white font-bold font-display text-lg">{{ name|first }}</div>
+          <div>
+            <p class="font-display font-semibold text-slate-900">{{ name }}</p>
+            <p class="text-slate-400 text-xs">{{ loc }}</p>
+          </div>
+        </div>
+        <div class="flex gap-0.5 mb-3">{% for i in "12345"|make_list %}<svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>{% endfor %}</div>
+        <p class="text-slate-600 text-sm leading-relaxed">"{{ review }}"</p>
+      </div>
+      {% endfor %}
+      <!-- Duplicate for seamless loop -->
+      {% for name, loc, review in placeholder_testimonials %}
+      <div class="flex-shrink-0 w-80 bg-white rounded-2xl p-6 shadow-sm border border-blue-50">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-12 h-12 rounded-full bg-brand-gradient flex items-center justify-center text-white font-bold font-display text-lg">{{ name|first }}</div>
+          <div>
+            <p class="font-display font-semibold text-slate-900">{{ name }}</p>
+            <p class="text-slate-400 text-xs">{{ loc }}</p>
+          </div>
+        </div>
+        <div class="flex gap-0.5 mb-3">{% for i in "12345"|make_list %}<svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.951-.69l1.07-3.292z"/></svg>{% endfor %}</div>
+        <p class="text-slate-600 text-sm leading-relaxed">"{{ review }}"</p>
+      </div>
+      {% endfor %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════ GALLERY PREVIEW ══════════════════ -->
+{% if gallery_highlights %}
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-12 gap-4">
+      <div class="reveal">
+        <span class="text-brand-500 font-semibold text-sm uppercase tracking-widest">Our Work</span>
+        <h2 class="font-display font-bold text-4xl sm:text-5xl text-slate-900 mt-2">Gallery</h2>
+      </div>
+      <a href="{% url 'gallery' %}" class="reveal text-brand-600 font-semibold hover:text-brand-800 flex items-center gap-1 transition-colors">
+        View All Photos →
+      </a>
+    </div>
+    <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+      {% for item in gallery_highlights %}
+      <div class="reveal card-hover rounded-2xl overflow-hidden group relative {% if forloop.counter == 1 %}row-span-2{% endif %}">
+        {% if item.image %}
+        <img src="{{ item.image.url }}" alt="{{ item.title }}" class="w-full h-full object-cover {% if forloop.counter == 1 %}min-h-80{% else %}h-44{% endif %} group-hover:scale-105 transition-transform duration-500">
+        {% else %}
+        <div class="bg-brand-50 {% if forloop.counter == 1 %}min-h-80{% else %}h-44{% endif %} flex items-center justify-center">
+          <p class="text-brand-300 text-sm">{{ item.title }}</p>
+        </div>
+        {% endif %}
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-950/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+          <p class="text-white font-display font-semibold text-sm">{{ item.title }}</p>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+
+<!-- ══════════════════ CTA BANNER ══════════════════ -->
+<section class="py-20 bg-brand-gradient-dark relative overflow-hidden">
+  <div class="absolute inset-0 hero-pattern opacity-10"></div>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
+    <div class="reveal">
+      <span class="inline-block bg-gold-400 text-white text-xs font-bold uppercase tracking-wider px-4 py-1.5 rounded-full mb-6">Limited Time Offer</span>
+      <h2 class="font-display font-extrabold text-4xl sm:text-6xl text-white mb-6">
+        First Order Gets<br/><span class="text-gold-400">Free Delivery!</span>
+      </h2>
+      <p class="text-blue-200 text-lg mb-10 max-w-xl mx-auto">Book your first laundry pickup today and enjoy complimentary doorstep delivery. Premium care at unbeatable value.</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="{% url 'booking' %}" class="inline-flex items-center gap-2 bg-gold-500 hover:bg-gold-400 text-white px-10 py-4 rounded-full font-display font-bold text-xl shadow-xl hover:shadow-gold-400/40 transition-all duration-200 hover:-translate-y-1">
+          Book Now – It's Free
+        </a>
+        <a href="tel:09073808333" class="inline-flex items-center gap-2 bg-white/15 hover:bg-white/25 border border-white/30 text-white px-10 py-4 rounded-full font-display font-semibold text-xl transition-all duration-200">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+          </svg>
+          Call Us
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Pass context data via Django
+  const defaultSteps = [
+    ['Book Online', 'Fill out our simple booking form with your service needs and preferred pickup time.'],
+    ['We Pickup', 'Our friendly team comes to your doorstep to collect your laundry — free of charge.'],
+    ['Expert Care', 'Your clothes are treated with professional care using quality detergents and equipment.'],
+    ['Fresh Delivery', 'Clean, folded, and fresh — delivered right back to your door on time.'],
+  ];
+
+  const whyUsItems = [
+    { icon: 'M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4', title: 'Free Pickup & Delivery', desc: 'We come to you — anywhere in Abuja. No transportation hassle, no extra cost.' },
+    { icon: 'M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z', title: 'Expert Fabric Care', desc: 'Each garment type is treated differently. We know exactly what your fabrics need.' },
+    { icon: 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', title: 'Fast Turnaround', desc: 'Most orders ready within 24–48 hours. Express service available for urgent needs.' },
+    { icon: 'M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z', title: 'Affordable Rates', desc: 'Quality shouldn\'t break the bank. Our rates are transparent and competitive.' },
+  ];
+
+  // Render "why us" section
+  const whyContainer = document.querySelector('.why-us-list');
+</script>
+{% endblock %}

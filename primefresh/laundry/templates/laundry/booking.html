@@ -1,0 +1,293 @@
+{% extends 'laundry/base.html' %}
+{% block title %}Book a Pickup – PrimeFresh Laundry{% endblock %}
+{% block navbar_class %}bg-brand-900{% endblock %}
+
+{% block extra_head %}
+<style>
+  .step-indicator .step {
+    transition: all 0.3s ease;
+  }
+  .step-indicator .step.active {
+    background: linear-gradient(135deg, #1463d9, #3399f7);
+    color: white;
+    box-shadow: 0 4px 16px rgba(20,99,217,0.35);
+  }
+  .step-indicator .step.completed {
+    background: #22c55e;
+    color: white;
+  }
+  .form-section { display: none; }
+  .form-section.active { display: block; }
+
+  .choice-card input[type="radio"] { display: none; }
+  .choice-card input:checked + label {
+    border-color: #1463d9;
+    background: #eff8ff;
+    box-shadow: 0 0 0 2px #3399f7;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<div class="bg-brand-gradient-dark pt-32 pb-20 relative overflow-hidden">
+  <div class="absolute inset-0 hero-pattern opacity-10"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+    <span class="text-gold-400 font-semibold text-sm uppercase tracking-widest">Hassle-Free</span>
+    <h1 class="font-display font-extrabold text-5xl sm:text-6xl text-white mt-3 mb-4">Book a Pickup</h1>
+    <p class="text-blue-200 text-xl max-w-xl mx-auto">Fill out the form below and we'll reach out to confirm your appointment. It takes less than 2 minutes!</p>
+    <div class="flex flex-wrap justify-center gap-4 mt-6 text-sm text-blue-200">
+      <span class="flex items-center gap-1"><svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg> Free Pickup</span>
+      <span class="flex items-center gap-1"><svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg> Free Delivery</span>
+      <span class="flex items-center gap-1"><svg class="w-4 h-4 text-gold-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg> 24hr Turnaround</span>
+    </div>
+  </div>
+  <div class="absolute bottom-0 left-0 right-0">
+    <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" class="w-full">
+      <path fill="#f8faff" d="M0,40 C480,80 960,0 1440,40 L1440,60 L0,60 Z"/>
+    </svg>
+  </div>
+</div>
+
+<!-- Booking Form Section -->
+<section class="py-16 bg-f8faff">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <!-- Step Indicator -->
+    <div class="step-indicator flex items-center justify-center gap-0 mb-12">
+      <div class="flex items-center">
+        <div id="step-1-indicator" class="step active w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-sm border-2 border-brand-600 bg-brand-600 text-white transition-all">1</div>
+        <span class="hidden sm:block text-xs font-medium text-slate-600 ml-2 mr-4">Your Info</span>
+      </div>
+      <div class="w-12 sm:w-20 h-0.5 bg-slate-200 flex-shrink-0" id="connector-1"></div>
+      <div class="flex items-center">
+        <div id="step-2-indicator" class="step w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-sm border-2 border-slate-200 text-slate-400 transition-all">2</div>
+        <span class="hidden sm:block text-xs font-medium text-slate-400 ml-2 mr-4" id="step-2-label">Service</span>
+      </div>
+      <div class="w-12 sm:w-20 h-0.5 bg-slate-200 flex-shrink-0" id="connector-2"></div>
+      <div class="flex items-center">
+        <div id="step-3-indicator" class="step w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-sm border-2 border-slate-200 text-slate-400 transition-all">3</div>
+        <span class="hidden sm:block text-xs font-medium text-slate-400 ml-2" id="step-3-label">Schedule</span>
+      </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-white rounded-3xl shadow-xl border border-blue-50 p-8 sm:p-10">
+      <form method="post" id="booking-form">
+        {% csrf_token %}
+
+        <!-- Step 1: Personal Info -->
+        <div class="form-section active" id="step-1">
+          <h2 class="font-display font-bold text-2xl text-slate-900 mb-2">Your Information</h2>
+          <p class="text-slate-500 text-sm mb-8">Tell us who you are so we can reach you.</p>
+
+          <div class="grid sm:grid-cols-2 gap-5">
+            <div class="sm:col-span-2">
+              <label class="block text-sm font-semibold text-slate-700 mb-2">Full Name *</label>
+              {{ form.full_name }}
+              {% if form.full_name.errors %}<p class="text-red-500 text-xs mt-1">{{ form.full_name.errors|join:", " }}</p>{% endif %}
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-2">Email Address *</label>
+              {{ form.email }}
+              {% if form.email.errors %}<p class="text-red-500 text-xs mt-1">{{ form.email.errors|join:", " }}</p>{% endif %}
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-2">Phone Number *</label>
+              {{ form.phone }}
+              {% if form.phone.errors %}<p class="text-red-500 text-xs mt-1">{{ form.phone.errors|join:", " }}</p>{% endif %}
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-sm font-semibold text-slate-700 mb-2">Pickup Address *</label>
+              {{ form.address }}
+              {% if form.address.errors %}<p class="text-red-500 text-xs mt-1">{{ form.address.errors|join:", " }}</p>{% endif %}
+            </div>
+          </div>
+
+          <div class="flex justify-end mt-8">
+            <button type="button" onclick="nextStep(2)" class="bg-brand-gradient text-white px-8 py-3.5 rounded-full font-display font-semibold hover:shadow-lg hover:shadow-brand-400/30 hover:-translate-y-0.5 transition-all">
+              Next – Choose Service →
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: Service Selection -->
+        <div class="form-section" id="step-2">
+          <h2 class="font-display font-bold text-2xl text-slate-900 mb-2">Choose Service</h2>
+          <p class="text-slate-500 text-sm mb-8">What would you like us to help you with?</p>
+
+          <div class="grid sm:grid-cols-2 gap-3 mb-6">
+            {% for value, label in form.service_type.field.choices %}
+            <div class="choice-card">
+              <input type="radio" name="service_type" id="svc_{{ value }}" value="{{ value }}" {% if form.service_type.value == value %}checked{% endif %}>
+              <label for="svc_{{ value }}" class="block cursor-pointer border-2 border-slate-200 rounded-xl p-4 transition-all hover:border-brand-300">
+                <span class="font-medium text-slate-800 text-sm">{{ label }}</span>
+              </label>
+            </div>
+            {% endfor %}
+          </div>
+          {% if form.service_type.errors %}<p class="text-red-500 text-xs mt-1">{{ form.service_type.errors|join:", " }}</p>{% endif %}
+
+          <div class="mb-6">
+            <label class="block text-sm font-semibold text-slate-700 mb-2">Estimated Number of Items (optional)</label>
+            {{ form.estimated_items }}
+          </div>
+
+          <div class="mb-6">
+            <label class="block text-sm font-semibold text-slate-700 mb-3">Options</label>
+            <div class="flex flex-wrap gap-6">
+              <label class="flex items-center gap-2 cursor-pointer">
+                {{ form.needs_pickup }}
+                <span class="text-sm text-slate-700">I need Pickup</span>
+              </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                {{ form.needs_delivery }}
+                <span class="text-sm text-slate-700">I need Delivery</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="flex justify-between mt-8">
+            <button type="button" onclick="prevStep(1)" class="px-6 py-3 text-slate-600 font-semibold hover:text-brand-600 transition-colors">
+              ← Back
+            </button>
+            <button type="button" onclick="nextStep(3)" class="bg-brand-gradient text-white px-8 py-3.5 rounded-full font-display font-semibold hover:shadow-lg hover:shadow-brand-400/30 hover:-translate-y-0.5 transition-all">
+              Next – Pick Date →
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 3: Schedule -->
+        <div class="form-section" id="step-3">
+          <h2 class="font-display font-bold text-2xl text-slate-900 mb-2">Pick a Date & Time</h2>
+          <p class="text-slate-500 text-sm mb-8">Choose when you'd like us to come for pickup.</p>
+
+          <div class="grid sm:grid-cols-2 gap-5 mb-6">
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-2">Preferred Date *</label>
+              {{ form.preferred_date }}
+              {% if form.preferred_date.errors %}<p class="text-red-500 text-xs mt-1">{{ form.preferred_date.errors|join:", " }}</p>{% endif %}
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-2">Preferred Time Slot *</label>
+              {{ form.preferred_slot }}
+              {% if form.preferred_slot.errors %}<p class="text-red-500 text-xs mt-1">{{ form.preferred_slot.errors|join:", " }}</p>{% endif %}
+            </div>
+          </div>
+
+          <div class="mb-6">
+            <label class="block text-sm font-semibold text-slate-700 mb-2">Special Instructions (optional)</label>
+            {{ form.special_instructions }}
+          </div>
+
+          <!-- Summary -->
+          <div class="bg-brand-50 rounded-2xl p-5 mb-6 border border-brand-100">
+            <h4 class="font-display font-semibold text-slate-800 mb-3">Booking Summary</h4>
+            <div class="space-y-2 text-sm text-slate-600">
+              <p><span class="font-medium">Name:</span> <span id="summary-name">—</span></p>
+              <p><span class="font-medium">Phone:</span> <span id="summary-phone">—</span></p>
+              <p><span class="font-medium">Service:</span> <span id="summary-service">—</span></p>
+              <p><span class="font-medium">Pickup:</span> <span id="summary-address">—</span></p>
+            </div>
+            <p class="text-xs text-brand-600 mt-3 font-medium">✓ Free Pickup & Delivery Included</p>
+          </div>
+
+          <div class="flex justify-between mt-8">
+            <button type="button" onclick="prevStep(2)" class="px-6 py-3 text-slate-600 font-semibold hover:text-brand-600 transition-colors">
+              ← Back
+            </button>
+            <button type="submit" class="bg-gold-500 hover:bg-gold-400 text-white px-10 py-3.5 rounded-full font-display font-bold text-lg shadow-lg hover:shadow-gold-400/40 hover:-translate-y-0.5 transition-all">
+              Confirm Booking 🎉
+            </button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+
+    <!-- Reassurance strip -->
+    <div class="mt-8 grid grid-cols-3 gap-4 text-center">
+      <div class="text-slate-500 text-xs">
+        <svg class="w-6 h-6 text-brand-500 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        Safe & Secure
+      </div>
+      <div class="text-slate-500 text-xs">
+        <svg class="w-6 h-6 text-brand-500 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+        We'll Call to Confirm
+      </div>
+      <div class="text-slate-500 text-xs">
+        <svg class="w-6 h-6 text-brand-500 mx-auto mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+        Free Pickup & Delivery
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  // Style form inputs consistently
+  document.querySelectorAll('input[type=text], input[type=email], input[type=number], input[type=date], textarea, select').forEach(el => {
+    if (!el.classList.contains('choice-card')) {
+      el.classList.add('form-field', 'w-full', 'px-4', 'py-3', 'border', 'border-slate-200', 'rounded-xl', 'text-slate-800', 'text-sm', 'bg-white');
+    }
+  });
+  document.querySelectorAll('input[type=checkbox]').forEach(el => {
+    el.classList.add('w-4', 'h-4', 'text-brand-600', 'rounded');
+  });
+
+  // Multi-step navigation
+  function showStep(n) {
+    document.querySelectorAll('.form-section').forEach(s => s.classList.remove('active'));
+    document.getElementById('step-' + n).classList.add('active');
+
+    // Update indicators
+    for (let i = 1; i <= 3; i++) {
+      const ind = document.getElementById('step-' + i + '-indicator');
+      const label = document.getElementById('step-' + i + '-label');
+      ind.classList.remove('active', 'completed', 'border-brand-600', 'border-green-500', 'border-slate-200', 'text-white', 'text-slate-400', 'bg-brand-600', 'bg-green-500');
+      if (i < n) {
+        ind.classList.add('completed', 'border-green-500', 'bg-green-500', 'text-white');
+        ind.innerHTML = '✓';
+      } else if (i === n) {
+        ind.classList.add('active', 'border-brand-600', 'bg-brand-600', 'text-white');
+        ind.innerHTML = i;
+        if (label) { label.classList.remove('text-slate-400'); label.classList.add('text-slate-800', 'font-semibold'); }
+      } else {
+        ind.classList.add('border-slate-200', 'text-slate-400');
+        ind.innerHTML = i;
+        if (label) { label.classList.add('text-slate-400'); label.classList.remove('font-semibold'); }
+      }
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function nextStep(n) {
+    // Validate step 1
+    if (n === 2) {
+      const name = document.querySelector('[name=full_name]').value.trim();
+      const email = document.querySelector('[name=email]').value.trim();
+      const phone = document.querySelector('[name=phone]').value.trim();
+      const address = document.querySelector('[name=address]').value.trim();
+      if (!name || !email || !phone || !address) {
+        alert('Please fill in all required fields before continuing.');
+        return;
+      }
+    }
+    // Validate step 2
+    if (n === 3) {
+      const svc = document.querySelector('[name=service_type]:checked');
+      if (!svc) { alert('Please select a service.'); return; }
+      // Update summary
+      document.getElementById('summary-name').textContent = document.querySelector('[name=full_name]').value;
+      document.getElementById('summary-phone').textContent = document.querySelector('[name=phone]').value;
+      document.getElementById('summary-service').textContent = svc.nextElementSibling.textContent.trim();
+      document.getElementById('summary-address').textContent = document.querySelector('[name=address]').value;
+    }
+    showStep(n);
+  }
+
+  function prevStep(n) { showStep(n); }
+</script>
+{% endblock %}

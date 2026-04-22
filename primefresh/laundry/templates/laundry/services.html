@@ -1,0 +1,159 @@
+{% extends 'laundry/base.html' %}
+{% block title %}Our Services – PrimeFresh Laundry & Cleaning{% endblock %}
+{% block navbar_class %}bg-brand-900{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<div class="bg-brand-gradient-dark pt-32 pb-20 relative overflow-hidden">
+  <div class="absolute inset-0 hero-pattern opacity-10"></div>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+    <span class="text-gold-400 font-semibold text-sm uppercase tracking-widest">What We Offer</span>
+    <h1 class="font-display font-extrabold text-5xl sm:text-6xl text-white mt-3 mb-4">Our Services</h1>
+    <p class="text-blue-200 text-xl max-w-2xl mx-auto">Professional care for your clothes, home, and workspace. Exceptional quality, affordable rates.</p>
+  </div>
+  <div class="absolute bottom-0 left-0 right-0">
+    <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" class="w-full">
+      <path fill="#f8faff" d="M0,40 C480,80 960,0 1440,40 L1440,60 L0,60 Z"/>
+    </svg>
+  </div>
+</div>
+
+<!-- Free Pickup Banner -->
+<div class="bg-gold-500 py-4">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-center gap-4 text-white text-center">
+    <span class="font-display font-bold text-lg">🎉 FREE Pickup & Delivery on all orders!</span>
+    <a href="{% url 'booking' %}" class="bg-white text-gold-600 font-bold px-5 py-2 rounded-full text-sm hover:bg-gold-50 transition-colors">Book Now</a>
+  </div>
+</div>
+
+<!-- Services Content -->
+<section class="py-20 bg-f8faff">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    {% if laundry_services %}
+    <!-- Laundry Services -->
+    <div class="mb-20">
+      <div class="flex items-center gap-4 mb-10 reveal">
+        <div class="w-12 h-12 bg-brand-gradient rounded-2xl flex items-center justify-center shadow-lg">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+          </svg>
+        </div>
+        <div>
+          <h2 class="font-display font-bold text-3xl text-slate-900">Laundry Services</h2>
+          <p class="text-slate-500">Expert fabric care for every garment</p>
+        </div>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for service in laundry_services %}
+        <div class="reveal card-hover bg-white rounded-2xl p-7 shadow-sm border border-blue-50 flex flex-col" data-delay="{{ forloop.counter0 }}00">
+          <div class="w-14 h-14 bg-brand-50 rounded-2xl flex items-center justify-center mb-5">
+            <svg class="w-7 h-7 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-bold text-xl text-slate-900 mb-3">{{ service.name }}</h3>
+          <p class="text-slate-500 text-sm leading-relaxed flex-1">{{ service.description }}</p>
+          {% if service.price_from %}
+          <div class="mt-4 pt-4 border-t border-blue-50">
+            <span class="text-brand-600 font-semibold">From ₦{{ service.price_from }}</span>
+            <span class="text-slate-400 text-sm"> {{ service.price_unit }}</span>
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if cleaning_services %}
+    <!-- Cleaning Services -->
+    <div class="mb-20">
+      <div class="flex items-center gap-4 mb-10 reveal">
+        <div class="w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center shadow-lg">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+        </div>
+        <div>
+          <h2 class="font-display font-bold text-3xl text-slate-900">Cleaning Services</h2>
+          <p class="text-slate-500">Spotless spaces, inside and out</p>
+        </div>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for service in cleaning_services %}
+        <div class="reveal card-hover bg-white rounded-2xl p-7 shadow-sm border border-green-50 flex flex-col" data-delay="{{ forloop.counter0 }}00">
+          <div class="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center mb-5">
+            <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+            </svg>
+          </div>
+          <h3 class="font-display font-bold text-xl text-slate-900 mb-3">{{ service.name }}</h3>
+          <p class="text-slate-500 text-sm leading-relaxed flex-1">{{ service.description }}</p>
+          {% if service.price_from %}
+          <div class="mt-4 pt-4 border-t border-green-50">
+            <span class="text-green-600 font-semibold">From ₦{{ service.price_from }}</span>
+            <span class="text-slate-400 text-sm"> {{ service.price_unit }}</span>
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if not laundry_services and not cleaning_services %}
+    <!-- Placeholder service list when no DB content -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+      {% for svc in placeholder_services %}
+      <div class="reveal card-hover bg-white rounded-2xl p-7 shadow-sm border border-blue-50 flex flex-col" data-delay="{{ forloop.counter0 }}00">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 text-3xl {{ svc.bg }}">
+          {{ svc.emoji }}
+        </div>
+        <h3 class="font-display font-bold text-xl text-slate-900 mb-3">{{ svc.name }}</h3>
+        <p class="text-slate-500 text-sm leading-relaxed flex-1">{{ svc.desc }}</p>
+        <div class="mt-4 pt-4 border-t border-slate-100">
+          <span class="text-brand-600 font-semibold text-sm">Affordable rates • Free pickup</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- CTA -->
+    <div class="reveal bg-brand-gradient rounded-3xl p-10 text-center text-white">
+      <h3 class="font-display font-bold text-3xl sm:text-4xl mb-4">Ready for Fresh, Clean Clothes?</h3>
+      <p class="text-blue-100 text-lg mb-8 max-w-xl mx-auto">Book a pickup today and experience the PrimeFresh difference. Fast, professional, and affordable.</p>
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="{% url 'booking' %}" class="bg-gold-500 hover:bg-gold-400 text-white px-8 py-4 rounded-full font-display font-bold text-lg shadow-xl transition-all hover:-translate-y-1">
+          Book Free Pickup
+        </a>
+        <a href="{% url 'contact' %}" class="bg-white/15 hover:bg-white/25 border border-white/30 text-white px-8 py-4 rounded-full font-display font-semibold text-lg transition-all">
+          Ask a Question
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Placeholder services if none in DB
+const placeholders = [
+  { emoji: '👕', bg: 'bg-blue-50', name: 'Laundry & Ironing', desc: 'Complete washing, drying, and ironing of all garment types. Each item handled with care for a crisp, fresh finish.' },
+  { emoji: '🧴', bg: 'bg-purple-50', name: 'Dry Cleaning', desc: 'Professional solvent-based cleaning for delicate fabrics — suits, evening gowns, silk, wool, and more.' },
+  { emoji: '✂️', bg: 'bg-red-50', name: 'Garment Alteration & Repairs', desc: 'Expert tailoring and repairs including hemming, resizing, zipper replacement, and stitching.' },
+  { emoji: '🏭', bg: 'bg-orange-50', name: 'Industrial Cleaning', desc: 'Heavy-duty cleaning solutions for commercial spaces, warehouses, offices, and large-scale facilities.' },
+  { emoji: '🏗️', bg: 'bg-yellow-50', name: 'Post Construction Cleaning', desc: 'Thorough cleanup after renovation or construction — removing dust, paint splatter, debris, and grout.' },
+  { emoji: '🌿', bg: 'bg-green-50', name: 'Fumigation', desc: 'Safe and effective fumigation services for homes and businesses. Pest-free environments, guaranteed.' },
+  { emoji: '🏠', bg: 'bg-teal-50', name: 'Home Deep Cleaning', desc: 'Intensive whole-home cleaning covering every corner — ideal for move-in/move-out or seasonal cleaning.' },
+  { emoji: '🚚', bg: 'bg-blue-50', name: 'Pickup & Delivery', desc: 'Complimentary door-to-door pickup and delivery. We come to you, handle everything, and bring it back fresh.' },
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+  const container = document.querySelector('.placeholder-grid');
+});
+</script>
+{% endblock %}

@@ -1,0 +1,16 @@
+*.pyc
+.venv
+.venv/
+.env
+build/
+dist/
+/node_modules
+node_modules
+*.swp
+*.vscode/
+__pycache__
+__pycache__/
+db.sqlite3
+dump.rdb
+media
+media/

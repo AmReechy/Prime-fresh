@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}PrimeFresh – Laundry & General Cleaning Services{% endblock %}</title>
+  <meta name="description" content="{% block meta_desc %}Professional laundry, dry cleaning, and general cleaning services with free pickup and delivery. Exceptional care, fast service, affordable rates.{% endblock %}" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Google Fonts: Syne (display) + DM Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet" />
+
+  <!-- Heroicons (outline) via unpkg -->
+  <script src="https://unpkg.com/@heroicons/react@2.1.1/dist/heroicons.js" defer></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Syne', 'sans-serif'],
+            body: ['DM Sans', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50:  '#eff8ff',
+              100: '#daf0ff',
+              200: '#bde3ff',
+              300: '#90d2fe',
+              400: '#5ab6fb',
+              500: '#3399f7',
+              600: '#1a7bec',
+              700: '#1463d9',
+              800: '#1750b0',
+              900: '#19458a',
+              950: '#142b54',
+            },
+            gold: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+            }
+          },
+          keyframes: {
+            fadeUp: {
+              '0%': { opacity: '0', transform: 'translateY(30px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideRight: {
+              '0%': { opacity: '0', transform: 'translateX(-40px)' },
+              '100%': { opacity: '1', transform: 'translateX(0)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-12px)' },
+            },
+            shimmer: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' },
+            },
+            pulse2: {
+              '0%, 100%': { transform: 'scale(1)', opacity: '1' },
+              '50%': { transform: 'scale(1.05)', opacity: '0.9' },
+            },
+          },
+          animation: {
+            fadeUp: 'fadeUp 0.7s ease-out forwards',
+            fadeIn: 'fadeIn 0.6s ease-out forwards',
+            slideRight: 'slideRight 0.7s ease-out forwards',
+            float: 'float 4s ease-in-out infinite',
+            shimmer: 'shimmer 2.5s linear infinite',
+            pulse2: 'pulse2 2s ease-in-out infinite',
+          },
+          backgroundImage: {
+            'brand-gradient': 'linear-gradient(135deg, #1463d9 0%, #3399f7 50%, #5ab6fb 100%)',
+            'brand-gradient-dark': 'linear-gradient(135deg, #142b54 0%, #1463d9 60%, #3399f7 100%)',
+            'hero-pattern': "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
+          },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #f8faff;
+      color: #1e293b;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4, h5 { font-family: 'Syne', sans-serif; }
+
+    /* Navbar */
+    #navbar {
+      transition: background 0.4s ease, box-shadow 0.4s ease, padding 0.3s ease;
+    }
+    #navbar.scrolled {
+      background: rgba(255,255,255,0.97) !important;
+      box-shadow: 0 4px 24px rgba(20,99,217,0.10);
+      backdrop-filter: blur(12px);
+    }
+    #navbar.scrolled .nav-link { color: #1e293b !important; }
+    #navbar.scrolled .nav-logo-text { color: #1463d9 !important; }
+    #navbar.scrolled .nav-cta {
+      background: #1463d9 !important;
+      color: #fff !important;
+    }
+    #navbar.scrolled .mobile-menu-btn { color: #1e293b !important; }
+
+    .nav-link {
+      position: relative;
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 2px;
+      background: #fbbf24;
+      border-radius: 2px;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after,
+    .nav-link.active::after { width: 100%; }
+
+    /* Mobile menu */
+    #mobile-menu {
+      transform: translateY(-100%);
+      transition: transform 0.35s cubic-bezier(.4,0,.2,1), opacity 0.3s;
+      opacity: 0;
+    }
+    #mobile-menu.open {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.revealed { opacity: 1; transform: translateY(0); }
+
+    /* Cards */
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(20,99,217,0.15);
+    }
+
+    /* Gradient text */
+    .gradient-text {
+      background: linear-gradient(135deg, #1463d9, #3399f7, #fbbf24);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Section divider wave */
+    .wave-divider svg { display: block; }
+
+    /* Badge pulse */
+    .badge-pulse::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 999px;
+      background: #ef4444;
+      animation: pulse2 2s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #3399f7; border-radius: 3px; }
+
+    /* Form fields */
+    .form-field {
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .form-field:focus {
+      border-color: #3399f7;
+      box-shadow: 0 0 0 3px rgba(51,153,247,0.18);
+      outline: none;
+    }
+
+    /* WhatsApp float button */
+    .wa-float {
+      position: fixed;
+      bottom: 28px; right: 28px;
+      z-index: 9999;
+      width: 58px; height: 58px;
+      background: #25d366;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 24px rgba(37,211,102,0.45);
+      animation: float 4s ease-in-out infinite;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .wa-float:hover {
+      transform: scale(1.12);
+      box-shadow: 0 10px 30px rgba(37,211,102,0.6);
+    }
+
+    /* Star rating */
+    .stars span { color: #fbbf24; }
+
+    /* Toast messages */
+    .django-message {
+      animation: fadeUp 0.5s ease-out;
+    }
+  </style>
+
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="font-body">
+
+  <!-- ══════════════════ NAVBAR ══════════════════ -->
+  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 {% block navbar_class %}bg-transparent{% endblock %}">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+
+        <!-- Logo -->
+        <a href="{% url 'home' %}" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 bg-brand-gradient rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-brand-400/40 transition-shadow">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+            </svg>
+          </div>
+          <div class="nav-logo-text">
+            <span class="font-display font-800 text-xl leading-none block {% block logo_color %}text-white{% endblock %}">
+              Prime<span class="text-gold-400">Fresh</span>
+            </span>
+            <span class="text-xs opacity-75 {% block logo_sub_color %}text-blue-100{% endblock %}">Laundry & Cleaning</span>
+          </div>
+        </a>
+
+        <!-- Desktop Nav -->
+        <div class="hidden lg:flex items-center gap-8">
+          {% with request.resolver_match.url_name as url_name %}
+          <a href="{% url 'home' %}" class="nav-link {% block logo_text_color %}text-white{% endblock %} {% if url_name == 'home' %}active{% endif %}">Home</a>
+          <a href="{% url 'services' %}" class="nav-link {% block logo_text_color2 %}text-white{% endblock %} {% if url_name == 'services' %}active{% endif %}">Services</a>
+          <a href="{% url 'gallery' %}" class="nav-link {% block logo_text_color3 %}text-white{% endblock %} {% if url_name == 'gallery' %}active{% endif %}">Gallery</a>
+          <a href="{% url 'contact' %}" class="nav-link {% block logo_text_color4 %}text-white{% endblock %} {% if url_name == 'contact' %}active{% endif %}">Contact</a>
+          {% endwith %}
+          <a href="{% url 'booking' %}" class="nav-cta bg-gold-500 text-white px-6 py-2.5 rounded-full font-semibold font-display text-sm hover:bg-gold-400 transition-all duration-200 shadow-lg hover:shadow-gold-400/40 hover:-translate-y-0.5">
+            Book Now
+          </a>
+        </div>
+
+        <!-- Mobile menu button -->
+        <button id="menu-toggle" class="mobile-menu-btn lg:hidden text-white p-2 rounded-lg" aria-label="Toggle menu">
+          <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+          <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu" class="lg:hidden absolute top-full left-0 right-0 bg-white shadow-2xl border-t border-blue-50">
+      <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col gap-4">
+        {% with request.resolver_match.url_name as url_name %}
+        <a href="{% url 'home' %}" class="nav-link text-slate-800 py-2 text-lg {% if url_name == 'home' %}text-brand-600 font-semibold{% endif %}">Home</a>
+        <a href="{% url 'services' %}" class="nav-link text-slate-800 py-2 text-lg {% if url_name == 'services' %}text-brand-600 font-semibold{% endif %}">Services</a>
+        <a href="{% url 'gallery' %}" class="nav-link text-slate-800 py-2 text-lg {% if url_name == 'gallery' %}text-brand-600 font-semibold{% endif %}">Gallery</a>
+        <a href="{% url 'contact' %}" class="nav-link text-slate-800 py-2 text-lg {% if url_name == 'contact' %}text-brand-600 font-semibold{% endif %}">Contact</a>
+        {% endwith %}
+        <a href="{% url 'booking' %}" class="mt-2 bg-brand-gradient text-white px-6 py-3 rounded-full font-semibold text-center font-display">
+          Book Now – Free Pickup
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════════════ MESSAGES ══════════════════ -->
+  {% if messages %}
+  <div class="fixed top-24 right-4 z-[9998] space-y-3 max-w-sm">
+    {% for message in messages %}
+    <div class="django-message flex items-start gap-3 px-5 py-4 rounded-2xl shadow-xl border
+      {% if message.tags == 'success' %}bg-green-50 border-green-200 text-green-800
+      {% elif message.tags == 'error' %}bg-red-50 border-red-200 text-red-800
+      {% else %}bg-blue-50 border-blue-200 text-blue-800{% endif %}">
+      {% if message.tags == 'success' %}
+        <svg class="w-5 h-5 flex-shrink-0 mt-0.5 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+        </svg>
+      {% endif %}
+      <p class="text-sm font-medium">{{ message }}</p>
+      <button onclick="this.parentElement.remove()" class="ml-auto text-current opacity-50 hover:opacity-100">✕</button>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  <!-- ══════════════════ MAIN CONTENT ══════════════════ -->
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- ══════════════════ FOOTER ══════════════════ -->
+  <footer class="bg-brand-950 text-white">
+    <!-- Top wave -->
+    <div class="wave-divider -mb-1">
+      <svg viewBox="0 0 1440 60" xmlns="http://www.w3.org/2000/svg" class="w-full">
+        <path fill="#0f172a" d="M0,40 C360,80 1080,0 1440,40 L1440,60 L0,60 Z"/>
+      </svg>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-10">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+
+        <!-- Brand -->
+        <div class="lg:col-span-1">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 bg-brand-gradient rounded-xl flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+              </svg>
+            </div>
+            <span class="font-display font-bold text-xl">Prime<span class="text-gold-400">Fresh</span></span>
+          </div>
+          <p class="text-blue-200 text-sm leading-relaxed mb-5">
+            Your clothes deserve a prime touch and fresh care. Professional laundry and cleaning services you can trust.
+          </p>
+          <!-- Social links -->
+          <div class="flex items-center gap-3">
+            <a href="https://instagram.com/primefreshlaundry" target="_blank" rel="noopener"
+               class="w-9 h-9 bg-white/10 hover:bg-brand-500 rounded-lg flex items-center justify-center transition-colors duration-200">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+              </svg>
+            </a>
+            <a href="https://wa.me/2349073808333" target="_blank" rel="noopener"
+               class="w-9 h-9 bg-white/10 hover:bg-green-500 rounded-lg flex items-center justify-center transition-colors duration-200">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+              </svg>
+            </a>
+            <a href="https://www.primefreshlaundry.com" target="_blank" rel="noopener"
+               class="w-9 h-9 bg-white/10 hover:bg-brand-500 rounded-lg flex items-center justify-center transition-colors duration-200">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h4 class="font-display font-semibold text-white mb-4">Quick Links</h4>
+          <ul class="space-y-2.5">
+            {% for label, url_name in nav_links %}
+            <li>
+              <a href="{% url url_name %}" class="text-blue-200 hover:text-white text-sm transition-colors flex items-center gap-2">
+                <span class="w-1 h-1 bg-gold-400 rounded-full"></span>{{ label }}
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <!-- Services -->
+        <div>
+          <h4 class="font-display font-semibold text-white mb-4">Our Services</h4>
+          <ul class="space-y-2.5">
+            {% for svc in footer_services %}
+            <li class="text-blue-200 text-sm flex items-center gap-2">
+              <span class="w-1 h-1 bg-brand-400 rounded-full"></span>{{ svc }}
+            </li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <!-- Contact Info -->
+        <div>
+          <h4 class="font-display font-semibold text-white mb-4">Get In Touch</h4>
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3">
+              <svg class="w-4 h-4 text-gold-400 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"/>
+              </svg>
+              <span class="text-blue-200 text-sm">NAF Officers Quarters Hajia Estate, After Mint and Print, Adjacent Abattoir, Garki II, FCT, Nigeria.</span>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-4 h-4 text-gold-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+              </svg>
+              <a href="tel:09073808333" class="text-blue-200 hover:text-white text-sm">090 7380 8333</a>
+            </li>
+            <li class="flex items-center gap-3">
+              <svg class="w-4 h-4 text-gold-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
+                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
+              </svg>
+              <a href="mailto:info@primefreshlaundry.com" class="text-blue-200 hover:text-white text-sm">info@primefreshlaundry.com</a>
+            </li>
+          </ul>
+
+          <!-- Working hours -->
+          <div class="mt-5 p-4 bg-white/5 rounded-xl border border-white/10">
+            <p class="text-xs font-semibold text-gold-400 mb-2">WORKING HOURS</p>
+            <p class="text-blue-200 text-sm">Mon – Sat: 8AM – 7PM</p>
+            <p class="text-blue-200 text-sm">Sunday: 10AM – 4PM</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom bar -->
+      <div class="border-t border-white/10 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="text-blue-300 text-sm">© {% now "Y" %} PrimeFresh Laundry & General Cleaning Services. All rights reserved.</p>
+        <div class="flex items-center gap-2">
+          <span class="inline-flex items-center gap-1.5 bg-red-500/20 text-red-300 text-xs px-3 py-1 rounded-full border border-red-400/20">
+            <span class="w-1.5 h-1.5 bg-red-400 rounded-full animate-pulse"></span>
+            Free Pickup & Delivery
+          </span>
+          <span class="text-blue-400 text-xs">
+            <a href="{% url 'booking' %}" class="hover:text-white transition-colors">Book Now →</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp Float -->
+  <a href="https://wa.me/2349073808333?text=Hello%20PrimeFresh!%20I'd%20like%20to%20enquire%20about%20your%20services."
+     target="_blank" rel="noopener" class="wa-float" title="Chat on WhatsApp">
+    <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+    </svg>
+  </a>
+
+  <!-- ══════════════════ GLOBAL JS ══════════════════ -->
+  <script>
+    // Navbar scroll effect
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 60) {
+        navbar.classList.add('scrolled');
+      } else {
+        navbar.classList.remove('scrolled');
+      }
+    });
+
+    // Mobile menu toggle
+    const toggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const iconOpen = document.getElementById('menu-icon-open');
+    const iconClose = document.getElementById('menu-icon-close');
+
+    toggle?.addEventListener('click', () => {
+      mobileMenu.classList.toggle('open');
+      iconOpen.classList.toggle('hidden');
+      iconClose.classList.toggle('hidden');
+    });
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('revealed'), entry.target.dataset.delay || 0);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => observer.observe(el));
+
+    // Auto-dismiss messages
+    setTimeout(() => {
+      document.querySelectorAll('.django-message').forEach(el => {
+        el.style.transition = 'opacity 0.5s, transform 0.5s';
+        el.style.opacity = '0';
+        el.style.transform = 'translateX(20px)';
+        setTimeout(() => el.remove(), 500);
+      });
+    }, 6000);
+  </script>
+
+  {% block extra_js %}{% endblock %}
+</body>
+</html>
