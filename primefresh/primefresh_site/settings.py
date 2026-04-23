@@ -48,6 +48,11 @@ TEMPLATES = [
     },
 ]
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static", # Or wherever your static folder is
+    #BASE_DIR / "static" / "laundry", # Include the laundry static folder
+]
+
 WSGI_APPLICATION = 'primefresh_site.wsgi.application'
 
 DATABASES = {
@@ -66,7 +71,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Africa/Lagos'
-USE_I18N = True
+USE_I18N = True 
 USE_TZ = True
 
 STATIC_URL = '/static/'
