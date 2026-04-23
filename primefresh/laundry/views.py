@@ -54,6 +54,7 @@ def home(request):
         'placeholder_testimonials': PLACEHOLDER_TESTIMONIALS,
         'how_it_works': HOW_IT_WORKS,
     }
+    print(featured_services)
     return render(request, 'laundry/home.html', context)
 
 
