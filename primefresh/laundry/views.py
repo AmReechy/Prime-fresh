@@ -3,7 +3,7 @@ from django.contrib import messages
 from .models import Service, Testimonial, GalleryItem, SiteStat
 from .forms import BookingForm, ContactForm
 
-
+ 
 HOW_IT_WORKS = [
     ('Book Online', 'Fill out our simple booking form with your service needs and preferred pickup time — takes under 2 minutes.'),
     ('We Pickup', 'Our friendly team comes to your doorstep to collect your laundry — free of charge, on your schedule.'),
@@ -40,7 +40,7 @@ PLACEHOLDER_SERVICES = [
 
 
 def home(request):
-    featured_services = Service.objects.filter(is_featured=True, is_active=True)[:6]
+    featured_services = Service.objects.filter(is_featured=True, is_active=True)#[:6]
     testimonials = list(Testimonial.objects.filter(is_featured=True)[:6])
     stats = SiteStat.objects.all()
     gallery_highlights = GalleryItem.objects.filter(is_active=True)[:6]

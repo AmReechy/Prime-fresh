@@ -75,7 +75,9 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+#SECRET_KEY = os.environ.get("SECRET_KEY", "fallback-key")
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -90,5 +92,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_USE_TLS = True
 # EMAIL_HOST_USER = 'your@email.com'
 # EMAIL_HOST_PASSWORD = 'your-password'
-
+# removed for security - set these in environment variables in production
 ADMIN_EMAIL = 'admin@primefreshlaundry.com'
