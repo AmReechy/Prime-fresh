@@ -6,7 +6,7 @@
 {% block navbar_class %}bg-transparent{% endblock %}
 
 {% block extra_head %}
-<style>
+<style> 
   /* Hero */
   .hero-section {
     min-height: 100vh;
@@ -96,7 +96,8 @@
 
         <h1 class="font-display font-extrabold text-5xl sm:text-6xl lg:text-7xl leading-[1.05] mb-6"
             style="animation: fadeUp 0.7s 0.1s ease-out both;">
-          Your Clothes<br/>
+          Your <span class="text-gold-400">Clothes</span><br/>
+          & <span class="text-gold-400">Home</span><br/>
           Deserve a<br/>
           <span class="text-gold-400">Prime Touch.</span>
         </h1>
@@ -159,7 +160,7 @@
                 <p class="text-sm"><img src="{% static 'hero_image_chatgpt.png' %}" alt=""></p>
                 !--<p class="text-xs opacity-70 mt-1">Recommended: 600×400px laundry photo</p>--
               </div>-->
-              <p class="text-sm"><img src="{% static 'hero_image_chatgpt.png' %}" alt=""></p>
+              <p class="text-sm"><img src="{% static 'laundry_cleaning.png' %}" alt=""></p>
             </div>
 
             <!-- Mini stats inside card -->
@@ -314,7 +315,7 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-14 gap-4">
       <div class="reveal">
-        <span class="text-brand-500 font-semibold text-sm uppercase tracking-widest">What We Offer</span>
+        <span class="text-brand-500 font-bold text-sm uppercase tracking-widest">What We Offer</span>
         <h2 class="font-display font-bold text-4xl sm:text-5xl text-slate-900 mt-2">Our Services</h2>
       </div>
       <a href="{% url 'services' %}" class="reveal text-brand-600 font-semibold hover:text-brand-800 flex items-center gap-1 transition-colors">
@@ -365,11 +366,11 @@
         <div class="relative">
           <div class="bg-brand-50 rounded-3xl overflow-hidden h-96 flex items-center justify-center border border-brand-100">
             <div class="text-center text-slate-400">
-              <svg class="w-20 h-20 mx-auto mb-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <!-- <svg class="w-20 h-20 mx-auto mb-3 opacity-30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-              </svg>
-              <p class="text-sm">[ Replace with team or facility image ]</p>
-              <p class="text-xs opacity-70">Recommended: 700×500px</p>
+              </svg> -->
+              <p class="text-sm"><img src="{% static 'hero_image_chatgpt.png' %}" alt=""></p>
+              <!-- <p class="text-xs opacity-70">Recommended: 700×500px</p> -->
             </div>
           </div>
           <!-- Floating card -->

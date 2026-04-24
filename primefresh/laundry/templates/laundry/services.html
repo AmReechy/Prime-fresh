@@ -18,7 +18,7 @@
     </svg>
   </div>
 </div>
-
+ 
 <!-- Free Pickup Banner -->
 <div class="bg-gold-500 py-4">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-center gap-4 text-white text-center">
@@ -47,18 +47,19 @@
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for service in laundry_services %}
-        <div class="reveal card-hover bg-white rounded-2xl p-7 shadow-sm border border-blue-50 flex flex-col" data-delay="{{ forloop.counter0 }}00">
-          <div class="w-14 h-14 bg-brand-50 rounded-2xl flex items-center justify-center mb-5">
+        <div class="reveal card-hover bg-blue-300 rounded-2xl p-4 shadow-sm border border-blue-400 flex flex-col" data-delay="{{ forloop.counter0 }}00">
+          <!-- <div class="w-14 h-14 bg-brand-50 rounded-2xl flex items-center justify-center mb-5">
             <svg class="w-7 h-7 text-brand-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
             </svg>
-          </div>
+          </div> -->
+          <div class="rounded-xl mb-4 overflow-hidden"><img src="{{service.image.url}}" class="block" alt="{{ service.name }}"></div>
           <h3 class="font-display font-bold text-xl text-slate-900 mb-3">{{ service.name }}</h3>
-          <p class="text-slate-500 text-sm leading-relaxed flex-1">{{ service.description }}</p>
+          <p class="text-sm md:text-base leading-relaxed flex-1 bg-blue-400 text-blue-50 border border-blue-200 rounded-lg p-3 font-medium">{{ service.description }}</p>
           {% if service.price_from %}
-          <div class="mt-4 pt-4 border-t border-blue-50">
-            <span class="text-brand-600 font-semibold">From ₦{{ service.price_from }}</span>
-            <span class="text-slate-400 text-sm"> {{ service.price_unit }}</span>
+          <div class="mt-4 pt-4 border-t border-blue-200">
+            <span class="text-brand-600 font-semibold">From ₦{{ service.price_from|floatformat:"0g" }}</span>
+            <span class="text-slate-600 text-sm"> {{ service.price_unit }}</span>
           </div>
           {% endif %}
         </div>
@@ -71,7 +72,7 @@
     <!-- Cleaning Services -->
     <div class="mb-20">
       <div class="flex items-center gap-4 mb-10 reveal">
-        <div class="w-12 h-12 bg-green-500 rounded-2xl flex items-center justify-center shadow-lg">
+        <div class="w-12 h-12 bg-amber-500 rounded-2xl flex items-center justify-center shadow-lg">
           <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
           </svg>
@@ -83,18 +84,56 @@
       </div>
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {% for service in cleaning_services %}
-        <div class="reveal card-hover bg-white rounded-2xl p-7 shadow-sm border border-green-50 flex flex-col" data-delay="{{ forloop.counter0 }}00">
-          <div class="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center mb-5">
-            <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="reveal card-hover bg-amber-300 rounded-2xl p-4 shadow-sm border border-amber-200 flex flex-col" data-delay="{{ forloop.counter0 }}00">
+            <!-- <div class="w-14 h-14 bg-green-50 rounded-2xl flex items-center justify-center mb-5">
+                <svg class="w-7 h-7 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                </svg>
+            </div> -->
+          <div class="rounded-xl mb-4 overflow-hidden"><img src="{{service.image.url}}" class="block" alt="{{ service.name }}"></div>
+          <h3 class="font-display font-bold text-xl text-slate-900 mb-3">{{ service.name }}</h3>
+          <p class="text-sm md:text-base leading-relaxed flex-1 bg-amber-400 text-amber-50 border border-amber-200 rounded-lg p-3 font-medium">{{ service.description }}</p>
+          {% if service.price_from %}
+          <div class="mt-4 pt-4 border-t border-amber-200">
+            <span class="text-amber-600 font-semibold">From ₦{{ service.price_from|floatformat:"0g" }}</span>
+            <span class="text-slate-600 text-sm"> {{ service.price_unit }}</span>
+          </div>
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if specialty_services %}
+    <!-- Specialty Services -->
+    <div class="mb-20">
+      <div class="flex items-center gap-4 mb-10 reveal">
+        <div class="w-12 h-12 bg-purple-500 rounded-2xl flex items-center justify-center shadow-lg">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+          </svg>
+        </div>
+        <div>
+          <h2 class="font-display font-bold text-3xl text-slate-900">Specialty Services</h2>
+          <p class="text-slate-500">Making your life better with our specialized offerings</p>
+        </div>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for service in specialty_services %}
+        <div class="reveal card-hover bg-purple-300 rounded-2xl p-7 shadow-sm border border-purple-200 flex flex-col" data-delay="{{ forloop.counter0 }}00">
+          <!-- <div class="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center mb-5">
+            <svg class="w-7 h-7 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
             </svg>
-          </div>
+          </div> -->
+          <div class="rounded-xl mb-4 overflow-hidden"><img src="{{service.image.url}}" class="block" alt="{{ service.name }}"></div>
           <h3 class="font-display font-bold text-xl text-slate-900 mb-3">{{ service.name }}</h3>
-          <p class="text-slate-500 text-sm leading-relaxed flex-1">{{ service.description }}</p>
+          <p class="text-sm md:text-base leading-relaxed flex-1 bg-purple-400 text-purple-50 border border-purple-200 rounded-lg p-3 font-medium">{{ service.description }}</p>
           {% if service.price_from %}
-          <div class="mt-4 pt-4 border-t border-green-50">
-            <span class="text-green-600 font-semibold">From ₦{{ service.price_from }}</span>
-            <span class="text-slate-400 text-sm"> {{ service.price_unit }}</span>
+          <div class="mt-4 pt-4 border-t border-purple-200">
+            <span class="text-purple-600 font-semibold">From ₦{{ service.price_from|floatformat:"0g" }}</span>
+            <span class="text-slate-600 text-sm"> {{ service.price_unit }}</span>
           </div>
           {% endif %}
         </div>

@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{% block title %}PrimeFresh – Laundry & General Cleaning Services{% endblock %}</title>
   <meta name="description" content="{% block meta_desc %}Professional laundry, dry cleaning, and general cleaning services with free pickup and delivery. Exceptional care, fast service, affordable rates.{% endblock %}" />
-
+ 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -279,7 +279,7 @@
     </div>
 
     <!-- Mobile Menu -->
-    <div id="mobile-menu" class="lg:hidden absolute top-full left-0 right-0 bg-white shadow-2xl border-t border-blue-50">
+    <div id="mobile-menu" class="lg:hidden absolute top-full left-0 right-0 bg-gradient-to-br from-blue-200 via-amber-100 to-blue-200 shadow-2xl border-t border-blue-50">
       <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col text-center gap-4">
         {% with request.resolver_match.url_name as url_name %}
         <a href="{% url 'home' %}" class="nav-link text-slate-800 py-2 text-lg {% if url_name == 'home' %}text-brand-600 font-semibold{% endif %}">Home</a>
